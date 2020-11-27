@@ -41,13 +41,15 @@ class App(Frame):
 			csvElement.click()
 			assert "Download Track results" in driver.page_source
 			tk.messagebox.showinfo("Attention", "The package statuses have been saved in the Downloads folder.")
-			driver.close()
-		try:
-			element = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, "track_package_result_details")))
-			assert "Notice card" in driver.page_source
-			tk.messagebox.showinfo("Attention", "The package has been delivered.")
-		except AssertionError:
-			tk.messagebox.showerror("Attention", "The package has not yet been delivered.")
+		elif len(inputNum) == 16:
+			try:
+				element = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, "track_package_result_details")))
+				assert "Notice card" in driver.page_source
+				tk.messagebox.showinfo("Attention", "The package has been delivered.")
+			except AssertionError:
+				tk.messagebox.showerror("Attention", "The package has not yet been delivered.")
+		else:
+			tk.messagebox.showerror("Attention", "Invalid tracking number.")
 		driver.close()
 if __name__ == '__main__':
 	App().mainloop()
