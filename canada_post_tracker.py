@@ -16,14 +16,11 @@ class App(Frame):
 		super().__init__()
 	def make_widgets(self):
 		self.winfo_toplevel().title("Package Tracker")
-
 		tk.Label(self, text="Enter a tracking number to check whether a package has been delivered: ", name="myLabel").grid(row=0, column=0)
 		self.entry = tk.Entry(self)
 		self.entry.grid(row=0, column=1)
-
 		btn = tk.Button(self, text="Submit", command=self.on_submit)
 		btn.grid(row=2, column=0, columnspan=2, sticky="ew")
-
 	def on_submit(self):
 		inputNum = self.entry.get()
 		os.environ['MOZ_HEADLESS'] = '1'
@@ -31,8 +28,7 @@ class App(Frame):
 		profile.set_preference('browser.download.folderList', 1)
 		profile.set_preference('browser.helperApps.neverAsk.saveToDisk', 'text/csv')
 		driver = webdriver.Firefox(executable_path="/usr/local/bin/geckodriver", firefox_profile=profile)
-		driver.get("https://www.canadapost.ca/cpc/en/home.page")
-		
+		driver.get("https://www.canadapost.ca/cpc/en/home.page")	
 		assert "Canada Post" in driver.title
 		trackingNumber = driver.find_element_by_name("trackingNumber")
 		trackingNumber.clear()
@@ -53,8 +49,5 @@ class App(Frame):
 		except AssertionError:
 			tk.messagebox.showerror("Attention", "The package has not yet been delivered.")
 		driver.close()
-
-
 if __name__ == '__main__':
 	App().mainloop()
-		
