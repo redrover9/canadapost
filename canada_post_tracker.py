@@ -33,8 +33,6 @@ class App(Frame):
 		trackingNumber = driver.find_element_by_name("trackingNumber")
 		trackingNumber.clear()
 		trackingNumber.send_keys(inputNum)
-		#7060220906288741
-		#7060220551634771
 		trackingNumber.send_keys(Keys.RETURN)
 		if len(inputNum) > 16:
 			csvElement = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID,"downloadCSVResults")))
