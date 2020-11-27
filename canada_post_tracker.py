@@ -16,14 +16,14 @@ class App(Frame):
         super().__init__()
     def make_widgets(self):
         self.winfo_toplevel().title("Package Tracker")
- 
+
         tk.Label(self, text="Enter a tracking number to check whether a package has been delivered: ", name="myLabel").grid(row=0, column=0)
         self.entry = tk.Entry(self)
         self.entry.grid(row=0, column=1)
- 
+
         btn = tk.Button(self, text="Submit", command=self.on_submit)
         btn.grid(row=2, column=0, columnspan=2, sticky="ew")
- 
+
     def on_submit(self):
         inputNum = self.entry.get()
         os.environ['MOZ_HEADLESS'] = '1'
@@ -36,6 +36,9 @@ class App(Frame):
         #7060220906288741
         #7060220551634771
         trackingNumber.send_keys(Keys.RETURN)
+        if len(inputNum) > 16:
+            csvDownload = driver.find_element_by_id("downloadCSVResults")
+            driver.close()
         try:
             element = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, "track_package_result_details")))
             assert "Notice card" in driver.page_source
@@ -45,7 +48,7 @@ class App(Frame):
         except TimeoutException:
             tk.messagebox.showerror("Attention", "The package has not yet been delivered.")
         driver.close()
- 
- 
+
+
 if __name__ == '__main__':
     App().mainloop()
